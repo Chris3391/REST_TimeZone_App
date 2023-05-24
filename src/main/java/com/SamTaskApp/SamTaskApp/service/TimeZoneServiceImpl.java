@@ -28,7 +28,7 @@ public class TimeZoneServiceImpl implements TimeZoneService{
                 (builder.toUriString(), String.class);
         return theTimeZone; }
         catch (Exception e) {
-            return "The City was not found " + theCity ;}
+            return "City " + theCity + " was not found.";}
 
     }
 }
