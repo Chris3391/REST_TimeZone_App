@@ -11,12 +11,12 @@ import java.util.Optional;
 
 //in this class will be implemented the logic
 @Service
-public class TaskImplement implements TaskService {
+public class TaskServiceImpl implements TaskService {
 
     private TaskRepository taskRepository; //create a DAO instance for constructor injection
 
     @Autowired //constructor injection for entity object
-    public TaskImplement (TaskRepository theRepository) {
+    public TaskServiceImpl (TaskRepository theRepository) {
         taskRepository = theRepository;
     }
 
@@ -29,19 +29,19 @@ public class TaskImplement implements TaskService {
     @Override
     @Transactional
     public Task findById(int theId) {
-    Task theTask = null; //create an entity object with null value
-   Optional<Task> theResult = taskRepository.findById(theId); //result will contain the Task object found by id
-    if (theResult.isPresent()) { //if the object is found
-        theTask = theResult.get(); } //get this object
-    else {  //if the object is not found
-        throw new RuntimeException("The required id is not found" + theId);} //throw a RunTimeException
+        Task theTask = null; //create an entity object with null value
+        Optional<Task> theResult = taskRepository.findById(theId); //result will contain the Task object found by id
+        if (theResult.isPresent()) { //if the object is found
+            theTask = theResult.get(); } //get this object
+        else {  //if the object is not found
+            throw new RuntimeException("The required id is not found" + theId);} //throw a RunTimeException
         return theTask; // return the object
     }
 
     @Override
     @Transactional
     public Task save(Task theTask) { //save method that takes Task object as the parameter
-    return taskRepository.save(theTask); //apply the save method on Task object
+        return taskRepository.save(theTask); //apply the save method on Task object
     }
 
     @Override
@@ -50,3 +50,4 @@ public class TaskImplement implements TaskService {
         taskRepository.deleteById(theId); //apply the delete method on Task object
     }
 }
+
