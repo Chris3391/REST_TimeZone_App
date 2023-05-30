@@ -1,6 +1,7 @@
 package com.SamTaskApp.SamTaskApp.service;
 
+import com.SamTaskApp.SamTaskApp.dto.TimeZoneDTO;
 
 public interface TimeZoneService {
-        String getTimeZone(String theCity); //define method to get the TimeZone
+        TimeZoneDTO getTimeZone(String theCity);
 }

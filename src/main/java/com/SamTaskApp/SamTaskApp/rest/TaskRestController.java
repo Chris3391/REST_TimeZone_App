@@ -3,12 +3,13 @@ package com.SamTaskApp.SamTaskApp.rest;
 
 import com.SamTaskApp.SamTaskApp.entity.Task;
 import com.SamTaskApp.SamTaskApp.service.TaskService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 public class TaskRestController {
 
 private TaskService taskService;
@@ -17,38 +18,44 @@ public TaskRestController (TaskService taskService) { //constructor injection
     this.taskService = taskService;
 }
 
-@GetMapping("/resttask") // get all Task objects
+@GetMapping("/tasks")
 public List<Task> findAll() {
     return taskService.findAll();
 }
 
-@GetMapping ("/resttask/{taskId}") //get Task object by Id
-public Task findById (@PathVariable int taskId) {
-      if (taskService == null) {                              //if Task object is not found
-       throw new RuntimeException("Required Id not found" + taskId);} //throw message with id number
-        return taskService.findById(taskId); //return Task object
+@GetMapping ("/tasks/{taskId}")
+public ResponseEntity<Object> findById (@PathVariable int taskId) {
+    Task task = taskService.findById(taskId);
+
+    if (task == null) {
+        String errorMessage = "Task Id " + taskId + " was not found.";
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(errorMessage);}
+
+        return ResponseEntity.ok(task);
       }
 
-@PostMapping ("/resttask") //create new Task object
-public Task createTask (@RequestBody Task theTask) {  //request a Task object
+@PostMapping ("/tasks")
+public Task createTask (@RequestBody Task theTask) {
     Task tempTask = taskService.save(theTask);
     return tempTask;
 }
 
-@PutMapping ("/resttask") //update Task object
-public Task updateTask (@RequestBody Task theTask) { //request a Task object
+@PutMapping ("/tasks")
+public Task updateTask (@RequestBody Task theTask) {
     Task tempTask = taskService.save(theTask);
     return tempTask;
 }
 
-@DeleteMapping("/resttask/{taskId}") //detele Task object by Id
+@DeleteMapping("/tasks/{taskId}")
     public String deleteTask (@PathVariable int taskId) {
-    Task tempTask = taskService.findById(taskId); //find the required Task object by Id
+    Task tempTask = taskService.findById(taskId);
 
-    if (tempTask == null) { //if the object is null (meaning the required id wasn't found)
-    throw new RuntimeException("Required Id not found" + taskId);} //throw exception with that id number
-    taskService.deleteById(taskId); //if object was found delete it by
-    return "Task Id " + taskId + " was succesufully deleted"; //return a message with deleted id number
+    if (tempTask == null) {
+    throw new RuntimeException ("Required Id not found" + taskId);}
+
+    taskService.deleteById(taskId);
+    return "Task Id " + taskId + " was succesufully deleted";
     }
 
 

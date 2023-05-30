@@ -1,34 +1,34 @@
 package com.SamTaskApp.SamTaskApp.service;
 
+import com.SamTaskApp.SamTaskApp.dto.TimeZoneDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class TimeZoneServiceImpl implements TimeZoneService{
 
     private final RestTemplate restTemplate;
 
+    @Value("${timezone.token}")
+    private String token;
+    @Value("${timezone.url}")
+    private String url;
+
     @Autowired
-    public TimeZoneServiceImpl (RestTemplate restTemplate)  {
-        this.restTemplate = restTemplate;
-    }
+    public TimeZoneServiceImpl (RestTemplate restTemplate){
+        this.restTemplate = restTemplate;}
 
-    @Override
-    public String getTimeZone(String theCity) {
-        String url = "https://timezoneapi.io/api/timezone/?Europe/" + theCity
-                + "&token=" + "kBumIPhLqMKa";
+    public TimeZoneDTO getTimeZone(String theCity) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("city", theCity);
+        String requestUrl = url + theCity + "&token=" + token;
 
-        try {
-        String theTimeZone = restTemplate.getForObject
-                (builder.toUriString(), String.class);
-        return theTimeZone; }
-        catch (Exception e) {
-            return "City " + theCity + " was not found.";}
+        Optional<TimeZoneDTO> timeZone = Optional.ofNullable(restTemplate.getForObject
+                (requestUrl, TimeZoneDTO.class));
+        return timeZone.orElseThrow(() ->
+                new NoSuchElementException("City " + theCity + " was not found"));}
 
-    }
 }

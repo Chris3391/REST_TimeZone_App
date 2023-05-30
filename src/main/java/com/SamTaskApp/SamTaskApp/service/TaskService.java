@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface TaskService {
 
-    List<Task>findAll(); //find all entities
-    Task findById(int theId); //find entity by Id
-    Task save(Task theTask); //save the entity
-    void deleteById(int theId); //remove the entity using Id
+    List<Task>findAll();
+    Task findById(int theId);
+    Task save(Task theTask);
+    void deleteById(int theId);
 
 }
