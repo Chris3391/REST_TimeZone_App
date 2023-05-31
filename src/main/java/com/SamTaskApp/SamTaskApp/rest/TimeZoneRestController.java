@@ -14,12 +14,13 @@ public class TimeZoneRestController {
 
     private TimeZoneService timeZoneService;
 
-    public TimeZoneRestController (TimeZoneService timeZoneService) {
-        this.timeZoneService=timeZoneService;
+    public TimeZoneRestController(TimeZoneService timeZoneService) {
+        this.timeZoneService = timeZoneService;
     }
 
     @GetMapping("/{theCity}")
     public TimeZoneDTO getTimeZone(@PathVariable String theCity) {
-     return timeZoneService.getTimeZone(theCity);}
+        return timeZoneService.getTimeZone(theCity);
+    }
 
 }

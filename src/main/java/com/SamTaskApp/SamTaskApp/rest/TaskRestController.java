@@ -12,50 +12,52 @@ import java.util.List;
 @RestController
 public class TaskRestController {
 
-private TaskService taskService;
+    private TaskService taskService;
 
-public TaskRestController (TaskService taskService) { //constructor injection
-    this.taskService = taskService;
-}
+    public TaskRestController(TaskService taskService) { //constructor injection
+        this.taskService = taskService;
+    }
 
-@GetMapping("/tasks")
-public List<Task> findAll() {
-    return taskService.findAll();
-}
+    @GetMapping("/tasks")
+    public List<Task> findAll() {
+        return taskService.findAll();
+    }
 
-@GetMapping ("/tasks/{taskId}")
-public ResponseEntity<Object> findById (@PathVariable int taskId) {
-    Task task = taskService.findById(taskId);
+    @GetMapping("/tasks/{taskId}")
+    public ResponseEntity<Object> findById(@PathVariable int taskId) {
+        Task task = taskService.findById(taskId);
 
-    if (task == null) {
-        String errorMessage = "Task Id " + taskId + " was not found.";
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(errorMessage);}
+        if (task == null) {
+            String errorMessage = "Task Id " + taskId + " was not found.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(errorMessage);
+        }
 
         return ResponseEntity.ok(task);
-      }
+    }
 
-@PostMapping ("/tasks")
-public Task createTask (@RequestBody Task theTask) {
-    Task tempTask = taskService.save(theTask);
-    return tempTask;
-}
+    @PostMapping("/tasks")
+    public Task createTask(@RequestBody Task theTask) {
+        Task tempTask = taskService.save(theTask);
+        return tempTask;
+    }
 
-@PutMapping ("/tasks")
-public Task updateTask (@RequestBody Task theTask) {
-    Task tempTask = taskService.save(theTask);
-    return tempTask;
-}
+    @PutMapping("/tasks")
+    public Task updateTask(@RequestBody Task theTask) {
+        Task tempTask = taskService.save(theTask);
+        return tempTask;
+    }
 
-@DeleteMapping("/tasks/{taskId}")
-    public String deleteTask (@PathVariable int taskId) {
-    Task tempTask = taskService.findById(taskId);
+    @DeleteMapping("/tasks/{taskId}")
+    public String deleteTask(@PathVariable int taskId) {
+        Task tempTask = taskService.findById(taskId);
 
-    if (tempTask == null) {
-    throw new RuntimeException ("Required Id not found" + taskId);}
+        if (tempTask == null) {
+            throw new RuntimeException("Required Id not found" + taskId);
+        }
 
-    taskService.deleteById(taskId);
-    return "Task Id " + taskId + " was succesufully deleted";
+        taskService.deleteById(taskId);
+        return "Task Id " + taskId + " was succesufully deleted";
     }
 
 

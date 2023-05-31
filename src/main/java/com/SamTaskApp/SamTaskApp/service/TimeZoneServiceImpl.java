@@ -5,11 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class TimeZoneServiceImpl implements TimeZoneService{
+public class TimeZoneServiceImpl implements TimeZoneService {
 
     private final RestTemplate restTemplate;
 
@@ -18,9 +19,10 @@ public class TimeZoneServiceImpl implements TimeZoneService{
     @Value("${timezone.url}")
     private String url;
 
-    @Autowired
-    public TimeZoneServiceImpl (RestTemplate restTemplate){
-        this.restTemplate = restTemplate;}
+    public TimeZoneServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
 
     public TimeZoneDTO getTimeZone(String theCity) {
 
@@ -28,7 +30,9 @@ public class TimeZoneServiceImpl implements TimeZoneService{
 
         Optional<TimeZoneDTO> timeZone = Optional.ofNullable(restTemplate.getForObject
                 (requestUrl, TimeZoneDTO.class));
+
         return timeZone.orElseThrow(() ->
-                new NoSuchElementException("City " + theCity + " was not found"));}
+                new NoSuchElementException("City " + theCity + " was not found"));
+    }
 
 }

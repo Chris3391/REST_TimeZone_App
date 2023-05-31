@@ -3,14 +3,14 @@ package com.SamTaskApp.SamTaskApp.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="tasks")
+@Table(name = "tasks")
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
     public Task() {

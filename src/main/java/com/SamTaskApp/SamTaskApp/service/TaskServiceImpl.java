@@ -5,6 +5,7 @@ import com.SamTaskApp.SamTaskApp.entity.Task;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -12,10 +13,10 @@ import java.util.Optional;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     @Autowired
-    public TaskServiceImpl (TaskRepository theRepository) {
+    public TaskServiceImpl(TaskRepository theRepository) {
         taskRepository = theRepository;
     }
 
@@ -29,14 +30,17 @@ public class TaskServiceImpl implements TaskService {
         Optional<Task> theResult = taskRepository.findById(theId);
 
         return theResult.orElseThrow(() -> new NoSuchElementException
-                ("The required Id " + theId + " was not found."));}
+                ("The required Id " + theId + " was not found."));
+    }
 
     @Transactional
     public Task save(Task theTask) {
-        return taskRepository.save(theTask);}
+        return taskRepository.save(theTask);
+    }
 
     @Transactional
     public void deleteById(int theId) {
-        taskRepository.deleteById(theId);}
+        taskRepository.deleteById(theId);
+    }
 }
 
